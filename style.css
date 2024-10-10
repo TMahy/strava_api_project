@@ -16,14 +16,20 @@
 body{
     font-family: 'Karla';
     font-size: 24px;
+    color: var(--font-color-1);
     background-color: var(--bg-color-darker);
     margin: 0;
     padding: 0px;
 }
 
 h1, h2, h3, h4{
-    color: var(--font-color-2);
+    color: var(--font-color-1);
     font-weight: lighter;
+}
+
+i{
+    color: var(--font-color-1);
+    font-size: 54px;    
 }
 
 /* General Section Styling */
@@ -32,6 +38,16 @@ h1, h2, h3, h4{
     background-color: var(--bg-color-dark);
     padding: 5px 20px 5px 20px;
     margin: 0 0 5px 0;
+}
+
+.section_title{
+    font-size: 20px;
+}
+
+.section_data{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 h1, h2{
@@ -45,10 +61,18 @@ h1, h2{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
+}
+.profile{
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-start;
+    gap: 10px;
     
 }
 
 .banner-year{
     color: var(--custom-orange);
 }
+
+
