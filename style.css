@@ -1,0 +1,54 @@
+/* General Styling */
+:root {
+    --bg-color-light: #3b3b3b;
+    --bg-color-dark: #232323;
+    --bg-color-darker: #121212;
+    --font-color-1: #FFFFFF;
+    --font-color-2: #d4d4d4;
+    --custom-orange: #ff550d;
+}
+
+*{
+    box-sizing: border-box;
+    border: 1px solid red;
+}
+
+body{
+    font-family: 'Karla';
+    font-size: 24px;
+    background-color: var(--bg-color-darker);
+    margin: 0;
+    padding: 0px;
+}
+
+h1, h2, h3, h4{
+    color: var(--font-color-2);
+    font-weight: lighter;
+}
+
+/* General Section Styling */
+
+.section{
+    background-color: var(--bg-color-dark);
+    padding: 5px 20px 5px 20px;
+    margin: 0 0 5px 0;
+}
+
+h1, h2{
+    border-bottom: 2px solid var(--custom-orange);
+}
+
+/* Banner Section Styling */
+
+.banner{
+    background-color: var(--bg-color-light);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.banner-year{
+    color: var(--custom-orange);
+}
