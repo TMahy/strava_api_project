@@ -110,15 +110,16 @@ h1, h2{
 
 .year_best_data{
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-    flex-direction: column;
     align-items: first baseline;
+    gap: 50px
 }
 
 /* Podium Stylings */
 
 .year_best_data>.section_data_item{
-    width: 100%;
+    /* width: 100%; */
 }
 
 .podium{
@@ -155,6 +156,7 @@ h1, h2{
 .places_data>.section_data_item{
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 20px
 }
 
