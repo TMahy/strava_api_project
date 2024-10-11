@@ -118,10 +118,6 @@ h1, h2{
 
 /* Podium Stylings */
 
-.year_best_data>.section_data_item{
-    /* width: 100%; */
-}
-
 .podium{
     display: flex;
     flex-wrap: wrap;
