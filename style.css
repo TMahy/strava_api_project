@@ -10,11 +10,11 @@
 
 *{
     box-sizing: border-box;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 body{
-    font-family: 'Karla';
+    font-family: 'Karla', 'Helvetica';
     font-size: 24px;
     color: var(--font-color-1);
     background-color: var(--bg-color-darker);
@@ -32,12 +32,26 @@ i{
     font-size: 54px;    
 }
 
+h1, h2{
+    border-bottom: 2px solid var(--custom-orange);
+}
+
+.stats_container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px
+}
+.stats_container>.section{
+    flex-grow: 1;
+    min-width: 33%;
+}
+
+
 /* General Section Styling */
 
 .section{
     background-color: var(--bg-color-dark);
     padding: 5px 20px 5px 20px;
-    margin: 0 0 5px 0;
 }
 
 .section_title{
@@ -50,9 +64,12 @@ i{
     align-items: center;
 }
 
-h1, h2{
-    border-bottom: 2px solid var(--custom-orange);
+.section_data_title{
+    color: var(--font-color-2);
+    font-size: 18px;
+    font-weight: 1;
 }
+
 
 /* Banner Section Styling */
 
@@ -62,17 +79,35 @@ h1, h2{
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: baseline;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 .profile{
     display: flex;
     align-items: baseline;
     justify-content: flex-start;
     gap: 10px;
-    
 }
 
 .banner-year{
     color: var(--custom-orange);
 }
+
+/* Year summary */
+
+.year_summary_data, .year_weekly_data{ 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 50px;
+    align-items: center;
+}
+
+.year_best_data{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: first baseline;
+}
+
 
 
