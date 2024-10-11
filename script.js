@@ -30,23 +30,50 @@ async function reAuthorize(){
 
 // Data needed to retrive or calculate from API data
 // Profile information if possible -> Image and Name
-async function getProfile(){
-    const response = await fetch(``);
-    const profileData = await response.json();
-    console.log(profileData);
-}
-//  Total runs this year, Total distance this year, Total time this year
-async function getTotals(){
-    const response = await fetch(``)
+async function getData(authData){
     
-}
-//  Weekly averages -> runs, distance, time
-async function getWeekly(){
+    const athleteResponse = await fetch(`https://www.strava.com/api/v3/athlete?access_token=${authData.access_token}`);
+    const athleteData = await athleteResponse.json();
 
-}
-// Top 3 longest runs -> Not sure there is an end point so will have to calculate
-// Top 3 fastest runs -> "---"
-async function getAllActivities(){
+    const statsResponse = await fetch(`https://www.strava.com/api/v3/athletes/${athleteData.id}/stats?access_token=${authData.access_token}`);
+    const statsData = await statsResponse.json();
+    console.log(statsData)
 
+    const activities = await getActivities(authData);
+
+    return {
+        "firstname":athleteData.firstname, 
+        "lastname": athleteData.lastname, 
+        "img":athleteData.profile, 
+        "ytd_runs": statsData.ytd_run_totals.count,
+        "ytd_distance": statsData.ytd_run_totals.distance,
+        "ytd_time": statsData.ytd_run_totals.moving_time,
+        "activities": activities
+    }
+}
+async function getActivities(authData){
+    //Strava API paginates its activities results so you must fetch all pages iteratively if there is more than 200 activities
+    let page_num = 1;
+    let all_activities = [];
+
+    while(true){
+        const response = await fetch(`https://www.strava.com/api/v3/athlete/activities?after=${new Date("2024-1-01").getTime() / 1000}&per_page=200&page=${page_num}&access_token=${authData.access_token}`);
+        const activities = await response.json();
+        all_activities = all_activities.concat(activities);
+        page_num += 1;
+        if(activities.length == 0){
+            break;
+        }
+    }
+    // console.log(...all_activities);
+    return all_activities;
 }
 
+async function useData() {
+    const authData = await reAuthorize();
+    let stravaData = await getData(authData);
+
+    console.log(stravaData.firstname, stravaData.lastname, stravaData.img, stravaData.ytd_runs, stravaData.ytd_distance, stravaData.ytd_time, stravaData.activities)
+}
+
+useData();
