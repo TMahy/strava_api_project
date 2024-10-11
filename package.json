@@ -1,0 +1,12 @@
+{
+  "name": "strava_api_project",
+  "version": "1.0.0",
+  "description": "A small project to practice fundamental web development principles - HTML, CSS and responsive design - JS and DOM manipulation - API Queries",
+  "main": "config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
