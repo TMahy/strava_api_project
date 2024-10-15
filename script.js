@@ -37,9 +37,8 @@ async function getData(authData){
 
     const statsResponse = await fetch(`https://www.strava.com/api/v3/athletes/${athleteData.id}/stats?access_token=${authData.access_token}`);
     const statsData = await statsResponse.json();
-    console.log(statsData)
 
-    const activities = await getActivities(authData);
+    // const activities = await getActivities(authData);
 
     return {
         "firstname":athleteData.firstname, 
@@ -48,7 +47,7 @@ async function getData(authData){
         "ytd_runs": statsData.ytd_run_totals.count,
         "ytd_distance": statsData.ytd_run_totals.distance,
         "ytd_time": statsData.ytd_run_totals.moving_time,
-        "activities": activities
+        // "activities": activities
     }
 }
 async function getActivities(authData){
@@ -73,7 +72,20 @@ async function useData() {
     const authData = await reAuthorize();
     let stravaData = await getData(authData);
 
-    console.log(stravaData.firstname, stravaData.lastname, stravaData.img, stravaData.ytd_runs, stravaData.ytd_distance, stravaData.ytd_time, stravaData.activities)
+    const profile_name = document.getElementById('profile-name');
+    profile_name.innerHTML = stravaData.firstname + ' ' + stravaData.lastname;
+
+    const profile_img = document.getElementById('profile-img');
+    profile_img.src = 'https://dgalywyr863hv.cloudfront.net/pictures/athletes/42701890/33419624/1/large.jpg'
+
+    const ytd_runs_elem = document.getElementById('year-runs');
+    ytd_runs_elem.innerHTML = stravaData.ytd_runs
+
+    const ytd_distance_elem = document.getElementById('year-distance');
+    ytd_distance_elem.innerHTML = Math.round(stravaData.ytd_distance/1000) + 'km'
+
+    const ytd_time_elem = document.getElementById('year-time');
+    ytd_time_elem.innerHTML = Math.floor(stravaData.ytd_time/60/60) + 'h ' + Math.floor(stravaData.ytd_time/60/60%1*60) + 'm'
 }
 
 useData();
