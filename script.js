@@ -38,7 +38,7 @@ async function getData(authData){
     const statsResponse = await fetch(`https://www.strava.com/api/v3/athletes/${athleteData.id}/stats?access_token=${authData.access_token}`);
     const statsData = await statsResponse.json();
 
-    // const activities = await getActivities(authData);
+    const activities = await getActivities(authData);
 
     return {
         "firstname":athleteData.firstname, 
@@ -47,7 +47,7 @@ async function getData(authData){
         "ytd_runs": statsData.ytd_run_totals.count,
         "ytd_distance": statsData.ytd_run_totals.distance,
         "ytd_time": statsData.ytd_run_totals.moving_time,
-        // "activities": activities
+        "activities": activities
     }
 }
 async function getActivities(authData){
@@ -68,9 +68,31 @@ async function getActivities(authData){
     return all_activities;
 }
 
+function calculateStats(activities){
+    //filter out activities that are not runs
+    const filteredActivities = activities.filter((activity) => activity.type == 'Run')
+    
+    const activitiesSortedByDist = filteredActivities.sort((a, b) => b.distance - a.distance)
+    console.log(activitiesSortedByDist.slice(0,3)) 
+    
+    const activitiesSortedBySpeed = filteredActivities.sort((a, b) => b.average_speed - a.average_speed)
+    console.log(activitiesSortedBySpeed.slice(0,3)) 
+
+    return {
+        "weekly_avg_runs": 0,
+        "weekly_avg_distance": 0,
+        "weekly_avg_time": 0,
+        "longest_runs": activitiesSortedByDist.slice(0,3),
+        "fastest_runs": activitiesSortedBySpeed.slice(0,3),
+    }
+}
+
 async function useData() {
     const authData = await reAuthorize();
     let stravaData = await getData(authData);
+
+    let newStravaStats = calculateStats(stravaData.activities);
+
 
     const profile_name = document.getElementById('profile-name');
     profile_name.innerHTML = stravaData.firstname + ' ' + stravaData.lastname;
@@ -79,13 +101,20 @@ async function useData() {
     profile_img.src = 'https://dgalywyr863hv.cloudfront.net/pictures/athletes/42701890/33419624/1/large.jpg'
 
     const ytd_runs_elem = document.getElementById('year-runs');
-    ytd_runs_elem.innerHTML = stravaData.ytd_runs
+    ytd_runs_elem.innerHTML = stravaData.ytd_runs;
 
     const ytd_distance_elem = document.getElementById('year-distance');
-    ytd_distance_elem.innerHTML = Math.round(stravaData.ytd_distance/1000) + 'km'
+    ytd_distance_elem.innerHTML = Math.round(stravaData.ytd_distance/1000) + 'km';
 
     const ytd_time_elem = document.getElementById('year-time');
-    ytd_time_elem.innerHTML = Math.floor(stravaData.ytd_time/60/60) + 'h ' + Math.floor(stravaData.ytd_time/60/60%1*60) + 'm'
+    ytd_time_elem.innerHTML = Math.floor(stravaData.ytd_time/60/60) + 'h ' + Math.floor(stravaData.ytd_time/60%1) + 'm';
+    
+    const weekly_runs_elem = document.getElementById('weekly-runs');
+    weekly_runs_elem.innerHTML = newStravaStats.weekly_avg_runs;
+    const weekly_distance_elem = document.getElementById('weekly-distance');
+    weekly_distance_elem.innerHTML = Math.round(newStravaStats.weekly_avg_distance/1000);
+    const weekly_time_elem = document.getElementById('weekly-time');
+    weekly_time_elem.innerHTML = Math.floor(newStravaStats.weekly_avg_time/60/60) + 'h ' + Math.floor(newStravaStats.weekly_avg_time/60%1) + 'm';
 }
 
 useData();
