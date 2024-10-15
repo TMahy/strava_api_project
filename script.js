@@ -65,7 +65,7 @@ async function getActivities(authData){
             break;
         }
     }
-    // console.log(...all_activities);
+    
     return all_activities;
 }
 
